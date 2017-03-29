@@ -186,12 +186,14 @@ function elit_downloadable_shortcode_init() {
                        '?asset=' . get_attached_file( $downloadable_id );
         
       $markup  = "<div class='downloadable'>";
-      $markup .= "  <h3>$tag</h3>";
+      if ( ! empty( $tag ) ):
+        $markup .= "  <h3>$tag</h3>";
+      endif;
       $markup .= "   <figure>";
       $markup .= "     <img src='$path'>";
       $markup .= "     <a class='downloadable__screen' href=\"$download_path\">";
       $markup .= "       <p>";
-      $markup .= "         <i class='fa fa-download' aria-hidden='true'></i>";
+      $markup .= "         <i class='downloadable__icon--dl-light'></i>";
       $markup .= "         Download";
       $markup .= "       </p>";
       $markup .= "     </a>";
@@ -203,19 +205,19 @@ function elit_downloadable_shortcode_init() {
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
-      if ( ! empty( $atts['dimensions'] ) ):
+      if ( ! empty( $dimensions ) ):
         $markup .= "       <span>Dimensions</span>$dimensions<br>";
       endif;
       $markup .= "       <span>Format</span>$filetype<br>";
-      if ( ! empty( $atts['filesize'] ) ):
+      if ( ! empty( $filesize ) ):
         $markup .= "       <span>File Size</span>$filesize<br>";
       endif;
-      if ( ! empty( $atts['link'] ) ):
+      if ( ! empty( $link ) ):
         $markup .= "       <span>Link to</span>$link<br>";
       endif;
       $markup .= "     </p>";
       $markup .= "     <a href=\"$download_path\">";
-      $markup .= "       <i class='fa fa-download' aria-hidden='true'></i>";
+      $markup .= "       <i class='downloadable__icon--dl-dark'></i>";
       $markup .= "       Download";
       $markup .= "     </a>";
       $markup .= "   </figcaption>";
