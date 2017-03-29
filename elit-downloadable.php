@@ -193,7 +193,7 @@ function elit_downloadable_shortcode_init() {
       $markup .= "     <img src='$path'>";
       $markup .= "     <a class='downloadable__screen' href=\"$download_path\">";
       $markup .= "       <p>";
-      $markup .= "         <i class='downloadable__icon--dl-light'></i>";
+      $markup .= "         <i class='downloadable__icon--dllight'></i>";
       $markup .= "         Download";
       $markup .= "       </p>";
       $markup .= "     </a>";
@@ -201,7 +201,7 @@ function elit_downloadable_shortcode_init() {
       $markup .= "   <figcaption>";
       if ( is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
-        $markup .= "       <a href='$path' target='_blank'>View actual size </a><i class='fa fa-external-link'></i>";
+        $markup .= "       <a href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i></a>";
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
@@ -217,7 +217,7 @@ function elit_downloadable_shortcode_init() {
       endif;
       $markup .= "     </p>";
       $markup .= "     <a href=\"$download_path\">";
-      $markup .= "       <i class='downloadable__icon--dl-dark'></i>";
+      $markup .= "       <i class='downloadable__icon--dldark'></i>";
       $markup .= "       Download";
       $markup .= "     </a>";
       $markup .= "   </figcaption>";
