@@ -30,44 +30,105 @@ function elit_downloadable_shortcode_init() {
 
       $shortcode_atts = shortcode_atts(
         array(
-          'id' => '',
+          'downloadable-id' => '',
+          'display-id' => '',
           'path' => '',
           'name' => '',
           'tag' => '',
           'link' => '',
           'audience' => '',
-          'type' => '',
+          'filetype' => '',
           'dimensions' => '',
           'filesize' => '',
         ),
         $atts
       );
 
-      $image = wp_get_attachment_image_src( $shortcode_atts['id'], 'elit-super' );
-      
-      if ( ! $image ) {
-        return;
+      $shortcode_atts = elit_format_atts( $shortcode_atts );
+
+
+      if ( is_image( $shortcode_atts ) ) {
+
+        $image = wp_get_attachment_image_src( $shortcode_atts['downloadable_id'], 'full' );
+
+        if ( ! $image ) {
+          return;
+        }
+
+        $shortcode_atts = get_atts( $shortcode_atts, $image, true );
+
+      } else {
+        // Handle document
+
+        $image = wp_get_attachment_image_src( $shortcode_atts['display_id'], 'full' );
+
+        if ( ! $image ) {
+          return;
+        }
+
+        $shortcode_atts = get_atts( $shortcode_atts, $image, false );
       }
 
-      $shortcode_atts = get_atts( $shortcode_atts, $image );
 
       $markup = elit_markup( $shortcode_atts, $image_url );
 
       return $markup;
     }
     add_shortcode( 'downloadable', 'elit_downloadable_shortcode' );
-  
-    function get_atts( $atts, $image ) {
-      $image_url = $image[0];
-      $image_path = get_attached_file( $shortcode_atts['id'] );
 
-      $atts['type']       = strtoupper( elit_get_image_type( $image_url ) );
-      $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
-      $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
-      $atts['path']       = parse_url( $image_url, PHP_URL_PATH );
-      $atts['name']       = basename( $image_url );
+    /**
+     * Determines whether the requested asset is an image.
+     *
+     */
+    function is_image( $atts ) {
+
+      return empty( $atts['display_id'] ) || 
+             $atts['display_id'] == $atts['downloadable_id'];
+    }
+
+    /**
+     * Change a hyphen to an underscore in the keys to an array.
+     *
+     */
+    function elit_format_atts( $atts ) {
+      
+      return array_combine(
+        array_map(function($key) use ($atts) { 
+          return str_replace('-', '_', $key);
+        }, array_keys($atts)), 
+        array_values($atts)
+      );
+    }
+  
+    function get_atts( $atts, $image, $downloadable_is_image = true ) {
+
+      $image_url = $image[0];
+      
+      if ( $downloadable_is_image ) {
+
+        $image_path = get_attached_file( $atts['downloadable_id'] );
+
+        $atts['display_id'] = $atts['downloadable_id'];
+        $atts['filetype']   = strtoupper( elit_get_image_type( $image_url ) );
+        $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
+        $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
+        $atts['path']       = parse_url( $image_url, PHP_URL_PATH );
+        $atts['name']       = basename( $image_url );
+
+      } else {
+
+        $image_path = get_attached_file( $atts['display_id'] );
+
+        $asset_path = get_attached_file( $atts['downloadable_id'] );
+        $asset_path_parts = explode( '.', basename($asset_path) );
+
+        $atts['filetype'] = strtoupper( array_pop( $asset_path_parts ) );
+        $atts['filesize'] = elit_human_filesize( filesize( $asset_path ), 0 );
+        $atts['path']     = parse_url( $image_url, PHP_URL_PATH );
+      }
 
       return $atts;
+      
     }
 
     function elit_format_dimensions( $width, $height ) {
@@ -122,39 +183,43 @@ function elit_downloadable_shortcode_init() {
     {
       extract( $atts );
       
-      $markup = <<<EOT
         
-        <div class="downloadable">
-          <h3>
-            Web banner
-          </h3>
-          <figure>
-            <img src="$path">
-            <a class="downloadable__screen" href="download.php?asset=$name">
-              <p>
-                <i class="fa fa-download" aria-hidden="true"></i>
-                Download
-              </p>
-            </a>
-          </figure>
-          <figcaption>
-            <p class="downloadable__note">
-              <a href="$path" target="_blank">View actual size </a><i class="fa fa-external-link"></i>
-            </p>
-            <p class="downloadable__description">
-              <span>Dimensions</span>$dimensions<br>
-              <span>Format</span>$type<br>
-              <span>File Size</span>$filesize<br>
-              <span>Link to</span>$link<br>
-            </p>
-            <a href="download.php?asset=$name">
-              <i class="fa fa-download" aria-hidden="true"></i>
-              Download
-            </a>
-          </figcaption>
-        </div>
+      $markup  = "<div class='downloadable'>";
+      $markup .= "  <h3>$tag</h3>";
+      $markup .= "   <figure>";
+      $markup .= "     <img src='$path'>";
+      $markup .= "     <a class='downloadable__screen' href='download.php?asset=$name'>";
+      $markup .= "       <p>";
+      $markup .= "         <i class='fa fa-download' aria-hidden='true'></i>";
+      $markup .= "         Download";
+      $markup .= "       </p>";
+      $markup .= "     </a>";
+      $markup .= "   </figure>";
+      $markup .= "   <figcaption>";
+      if ( is_image( $atts ) ):
+        $markup .= "     <p class='downloadable__note'>";
+        $markup .= "       <a href='$path' target='_blank'>View actual size </a><i class='fa fa-external-link'></i>";
+        $markup .= "     </p>";
+      endif;
+      $markup .= "     <p class='downloadable__description'>";
+      if ( ! empty( $atts['dimensions'] ) ):
+        $markup .= "       <span>Dimensions</span>$dimensions<br>";
+      endif;
+      $markup .= "       <span>Format</span>$filetype<br>";
+      if ( ! empty( $atts['filesize'] ) ):
+        $markup .= "       <span>File Size</span>$filesize<br>";
+      endif;
+      if ( ! empty( $atts['link'] ) ):
+        $markup .= "       <span>Link to</span>$link<br>";
+      endif;
+      $markup .= "     </p>";
+      $markup .= "     <a href='download.php?asset=$name'>";
+      $markup .= "       <i class='fa fa-download' aria-hidden='true'></i>";
+      $markup .= "       Download";
+      $markup .= "     </a>";
+      $markup .= "   </figcaption>";
+      $markup .= " </div>";
 
-EOT;
       return $markup;
     }
   }
