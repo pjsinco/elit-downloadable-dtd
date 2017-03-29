@@ -182,13 +182,14 @@ function elit_downloadable_shortcode_init() {
     function elit_markup( $atts )
     {
       extract( $atts );
-      
+      $download_path = plugins_url( "download.php", __FILE__ ) . 
+                       '?asset=' . get_attached_file( $downloadable_id );
         
       $markup  = "<div class='downloadable'>";
       $markup .= "  <h3>$tag</h3>";
       $markup .= "   <figure>";
       $markup .= "     <img src='$path'>";
-      $markup .= "     <a class='downloadable__screen' href='download.php?asset=$name'>";
+      $markup .= "     <a class='downloadable__screen' href=\"$download_path\">";
       $markup .= "       <p>";
       $markup .= "         <i class='fa fa-download' aria-hidden='true'></i>";
       $markup .= "         Download";
@@ -213,7 +214,7 @@ function elit_downloadable_shortcode_init() {
         $markup .= "       <span>Link to</span>$link<br>";
       endif;
       $markup .= "     </p>";
-      $markup .= "     <a href='download.php?asset=$name'>";
+      $markup .= "     <a href=\"$download_path\">";
       $markup .= "       <i class='fa fa-download' aria-hidden='true'></i>";
       $markup .= "       Download";
       $markup .= "     </a>";
