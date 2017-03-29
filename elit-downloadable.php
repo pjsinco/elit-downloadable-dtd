@@ -215,6 +215,9 @@ function elit_downloadable_shortcode_init() {
       if ( ! empty( $link ) ):
         $markup .= "       <span>Link to</span>$link<br>";
       endif;
+      if ( ! empty( $audience ) ):
+        $markup .= "       <span>Audience</span>$audience<br>";
+      endif;
       $markup .= "     </p>";
       $markup .= "     <a href=\"$download_path\">";
       $markup .= "       <i class='downloadable__icon--dldark'></i>";
