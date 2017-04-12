@@ -126,7 +126,7 @@ function elit_downloadable_shortcode_init() {
         $image_path = get_attached_file( $atts['id'] );
 
         $atts['display_id'] = $atts['id'];
-        $atts['filetype']   = strtoupper( elit_get_image_type( $image_url ) );
+        $atts['filetype']   = strtoupper( elit_get_image_type( $image_path ) );
         $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
         $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
         $atts['path']       = parse_url( $image_url, PHP_URL_PATH );
