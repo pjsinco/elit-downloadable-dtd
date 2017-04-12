@@ -160,7 +160,7 @@ function elit_downloadable_shortcode_init() {
         return;
       }
 
-      return sprintf('%dx%d pixels', $width, $height);
+      return sprintf('%dx%d', $width, $height);
     }
 
     /**
@@ -248,12 +248,14 @@ function elit_downloadable_shortcode_init() {
       $markup .= "   <figcaption>";
       if ( is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
-        $markup .= "       <a href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i></a>";
+        $markup .= "       <a class='hide' href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
+        //$markup .= "       <a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>";
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
       if ( ! empty( $dimensions ) ):
-        $markup .= "       <span>Dimensions</span>$dimensions<br>";
+        $markup .= "       <span>Dimensions</span>$dimensions ";
+        $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
       endif;
       $markup .= "       <span>Format</span>$filetype<br>";
       if ( ! empty( $filesize ) ):

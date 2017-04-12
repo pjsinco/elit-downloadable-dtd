@@ -15,7 +15,6 @@ $faintgray: #ececec;
   background-position: 50%;
   transform: translate3d(0, 0, 0);
   transition: transform .3s ease;
-
 }
 
 .downloadable {
@@ -65,6 +64,7 @@ $faintgray: #ececec;
   }
 
   & > figcaption {
+    position: relative;
     padding: .75rem 1rem 1rem;
     box-shadow: 0 0 10px 3px #f3f3f3;
     border-left: 1px solid $faintgray;
@@ -104,14 +104,24 @@ $faintgray: #ececec;
   & > span:after {
     content: ": ";
   }
+
+  & a[href^='mailto'] {
+    text-decoration: underline;
+  }
 }
 
 .downloadable__note {
   position: absolute;
   right: 1rem;
-  margin-top: 0;
+  display: none;
   font-size: .75rem;
   line-height: 2;
+  text-align: center;
+
+  @media screen and (min-width: 875px) {
+    display: block;
+  }
+
 
   & > a {
     display: inline-block;

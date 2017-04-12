@@ -53,6 +53,7 @@
     border-right: 1px solid #ececec;
     border-bottom: none; }
   .downloadable > figcaption {
+    position: relative;
     padding: .75rem 1rem 1rem;
     box-shadow: 0 0 10px 3px #f3f3f3;
     border-left: 1px solid #ececec;
@@ -83,13 +84,19 @@
     font-weight: 600; }
   .downloadable__description > span:after {
     content: ": "; }
+  .downloadable__description a[href^='mailto'] {
+    text-decoration: underline; }
 
 .downloadable__note {
   position: absolute;
   right: 1rem;
-  margin-top: 0;
+  display: none;
   font-size: .75rem;
-  line-height: 2; }
+  line-height: 2;
+  text-align: center; }
+  @media screen and (min-width: 875px) {
+    .downloadable__note {
+      display: block; } }
   .downloadable__note > a {
     display: inline-block;
     opacity: 1;
