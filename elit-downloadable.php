@@ -3,7 +3,7 @@
 Plugin Name: Elit Downloadable
 Plugin URI:  
 Description: Make images and other assets downloadable
-Version:  1.0.2
+Version:  1.0.3
 Author: Patrick Sinco
 Author URI: github.com/pjsinco
 License: GPL2
@@ -126,7 +126,7 @@ function elit_downloadable_shortcode_init() {
         $image_path = get_attached_file( $atts['id'] );
 
         $atts['display_id'] = $atts['id'];
-        $atts['filetype']   = strtoupper( elit_get_image_type( $image_url ) );
+        $atts['filetype']   = strtoupper( elit_get_image_type( $image_path ) );
         $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
         $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
         $atts['path']       = parse_url( $image_url, PHP_URL_PATH );
@@ -160,7 +160,7 @@ function elit_downloadable_shortcode_init() {
         return;
       }
 
-      return sprintf('%dx%d pixels', $width, $height);
+      return sprintf('%dx%d', $width, $height);
     }
 
     /**
@@ -248,12 +248,14 @@ function elit_downloadable_shortcode_init() {
       $markup .= "   <figcaption>";
       if ( is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
-        $markup .= "       <a href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i></a>";
+        $markup .= "       <a class='hide' href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
+        //$markup .= "       <a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>";
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
       if ( ! empty( $dimensions ) ):
-        $markup .= "       <span>Dimensions</span>$dimensions<br>";
+        $markup .= "       <span>Dimensions</span>$dimensions ";
+        $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
       endif;
       $markup .= "       <span>Format</span>$filetype<br>";
       if ( ! empty( $filesize ) ):
