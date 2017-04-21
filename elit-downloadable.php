@@ -71,7 +71,7 @@ function elit_downloadable_shortcode_init() {
         return;
       }
 
-      $markup = elit_markup( $shortcode_atts, $image_url );
+      $markup = elit_markup( $shortcode_atts );
 
       return $markup;
     }
