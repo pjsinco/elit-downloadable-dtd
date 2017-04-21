@@ -3,7 +3,7 @@
 Plugin Name: Elit Downloadable
 Plugin URI:  
 Description: Make images and other assets downloadable
-Version:  1.0.2
+Version:  1.0.3
 Author: Patrick Sinco
 Author URI: github.com/pjsinco
 License: GPL2
@@ -71,7 +71,7 @@ function elit_downloadable_shortcode_init() {
         return;
       }
 
-      $markup = elit_markup( $shortcode_atts, $image_url );
+      $markup = elit_markup( $shortcode_atts );
 
       return $markup;
     }
