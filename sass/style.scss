@@ -1,4 +1,5 @@
 $faintgray: #ececec;
+$faintergray: #f5f5f5;
 
 %downloadable-icon-dl-base {
   position: relative;
@@ -19,9 +20,20 @@ $faintgray: #ececec;
 
 .downloadable {
   position: relative;
-  display: inline-block;
+  display: block;
   max-width: 100%;
   margin-bottom: 2rem;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 32px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    box-shadow: 0 0 10px 3px #f3f3f3;
+  }
 
   & a {
     text-decoration: none;
@@ -34,10 +46,12 @@ $faintgray: #ececec;
     border-left: 1px solid $faintgray;
     border-right: 1px solid $faintgray;
     border-top: 1px solid $faintgray;
-    box-shadow: 0 0 10px 3px #f3f3f3;
+    background-color: $faintergray;
+    /*box-shadow: 0 0 10px 3px #f3f3f3;*/
   }
 
   & img {
+    margin: 0 auto;
     position: relative;
     display: block;
     /*min-height: 100%;*/
@@ -48,14 +62,15 @@ $faintgray: #ececec;
     position: relative;
     left: 1rem;
     display: inline-block;
+    height: 32px;
     margin-bottom: 0;
     padding: .5rem 1rem;
-    font-weight: 200;
+    font-family: "gotham-book", Helvetica, Arial, sans-serif;
     font-size: .75rem;
     letter-spacing: .8px;
     text-transform: uppercase;
     color: #666;
-    background-color: #f5f5f5;
+    background-color: $faintergray;
     border-radius: 8px 8px 0 0;
     border-top: 1px solid #ececec;
     border-left: 1px solid #ececec;
@@ -66,7 +81,7 @@ $faintgray: #ececec;
   & > figcaption {
     position: relative;
     padding: .75rem 1rem 1rem;
-    box-shadow: 0 0 10px 3px #f3f3f3;
+    /*box-shadow: 0 0 10px 3px #f3f3f3;*/
     border-left: 1px solid $faintgray;
     border-right: 1px solid $faintgray;
     border-bottom: 1px solid $faintgray;
@@ -81,7 +96,7 @@ $faintgray: #ececec;
       font-weight: 200;
       letter-spacing: .4px;
       color: #666;
-      background-color: #f5f5f5;
+      background-color: $faintergray;
       transition: background-color .3s ease;
     }
 
