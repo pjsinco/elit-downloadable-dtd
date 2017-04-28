@@ -3,7 +3,7 @@
 Plugin Name: Elit Downloadable
 Plugin URI:  
 Description: Make images and other assets downloadable
-Version:  1.0.4
+Version:  1.0.5
 Author: Patrick Sinco
 Author URI: github.com/pjsinco
 License: GPL2
