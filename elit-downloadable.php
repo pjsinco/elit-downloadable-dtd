@@ -38,13 +38,13 @@ function elit_downloadable_shortcode_init() {
         array(
           'ids' => '',
           'display-id' => '',
-          'rel-path' => '',
+          //'rel-path' => '',
           //'name' => '',
           'meta-tag' => '',
           'meta-link' => '',
           'meta-audience' => '',
-          'filetype' => '',
-          'dimensions' => '',
+          //'filetype' => '',
+          //'dimensions' => '',
           //'filesize' => '',
           'images' => array(),
         ),
@@ -100,6 +100,17 @@ function elit_downloadable_shortcode_init() {
     add_shortcode( 'downloadable', 'elit_downloadable_shortcode' );
 
     /**
+     * Return the first values in the array
+     * 
+     * @param string $ids The ids to parse, eg "785, 786"
+     * @return string
+     */
+    function elit_downloadable_get_first_id( $ids ) {
+      $all_ids = array_map( 'trim', explode( ',', $ids ) );
+      return $all_ids[0];
+    }
+
+    /**
      * Determines whether the requested asset is an image.
      *
      * @param array $atts The shortcode attributes
@@ -107,8 +118,9 @@ function elit_downloadable_shortcode_init() {
      */
     function elit_downloadable_is_image( $atts ) {
 
-      return empty( $atts['display_id'] ) || 
-             $atts['display_id'] == $atts['ids'];
+      $first_id = elit_downloadable_get_first_id( $atts['ids'] );
+
+      return empty( $atts['display_id'] ) || $atts['display_id'] == $first_id;
     }
 
     /**
@@ -283,11 +295,11 @@ function elit_downloadable_shortcode_init() {
         $download_path .= get_attached_file( $default_image_id );
       }
 
-      $markup  = "<div class='downloadable'>";
+      $markup  = "<div class='downloadable' data-elit-downloadable-paths='[" . json_encode( $atts['images'] ) . "]'>";
       if ( ! empty( $meta_tag ) ):
         $markup .= "  <h3>$meta_tag</h3>";
       endif;
-      $markup .= "   <figure data-elit-downloadable-paths='[" . json_encode( $atts['images'] ) . "]'>";
+      $markup .= "   <figure>";
       $markup .= "     <img src='$rel_path'>";
       $markup .= "     <a class='downloadable__screen' href=\"$download_path\">";
       $markup .= "       <p>";
@@ -303,18 +315,47 @@ function elit_downloadable_shortcode_init() {
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
-      if ( ! empty( $dimensions ) ):
 
+
+
+
+      //if ( ! empty( $dimensions ) ):
         //$markup .= "       <span>Dimensions</span>$dimensions ";
+
+      if ( count( $images ) > 1 ) {
 
         $markup .= "       <label for='size'>Select size</label>";
         $markup .= "       <select name='size' class='downloadable__select'>";
-        $markup .= "         <option value='728_90' selected>728x90px</option>";
-        $markup .= "         <option value='1516_180'>1516x180px</option>";
-        $markup .= "         <option value='900_600'>900x600px</option>";
+          
+        foreach ($images as $key => $image) {
+
+          $option_text = 
+            elit_downloadable_format_dimensions( $image['width'], $image['height'] );
+
+          $markup .= "<option value='$key'>$option_text</option>";
+        }
+
+
+        //$markup .= "         <option value='728_90' selected>728x90px</option>";
+        //$markup .= "         <option value='1516_180'>1516x180px</option>";
+        //$markup .= "         <option value='900_600'>900x600px</option>";
+
+
+
         $markup .= "       </select>";
         $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
-      endif;
+
+      } else {
+
+        $markup .= "       <span>Dimensions</span>$dimensions ";
+        $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
+      }
+
+
+
+
+
+
       $markup .= "       <span>Format</span>$filetype<br>";
       if ( ! empty( $filesize ) ):
         $markup .= "       <span>File Size</span>$filesize<br>";

@@ -1,1 +1,1 @@
-jQuery(document).ready(function(a){a(".downloadable figure").each(function(b,c){console.log(a(this).data("elitDownloadablePaths"))}),jQuery(".downloadable__select").change(function(a){console.dir(a.currentTarget.value)})});
+jQuery(document).ready(function(a){a(".downloadable figure").each(function(a,b){}),a(".downloadable__select").change(function(b){var c=a(this).closest(".downloadable").data("elitDownloadablePaths"),d=c[0][b.currentTarget.value];console.dir(d)})});

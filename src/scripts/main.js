@@ -4,12 +4,18 @@ jQuery(document).ready(function($) {
 
   $('.downloadable figure').each(function(i, d) {
 
-    console.log($(this).data('elitDownloadablePaths'));
+    //console.log($(this).data('elitDownloadablePaths'));
 
   });
 
-  jQuery('.downloadable__select').change(function(evt) {
-console.dir(evt.currentTarget.value);
+  $('.downloadable__select').change(function(evt) {
+
+    var paths = $(this).closest('.downloadable').data('elitDownloadablePaths');
+
+    var selectedImage = paths[0][evt.currentTarget.value];
+
+console.dir(selectedImage);
+
   });
 
 });
