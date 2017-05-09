@@ -47,25 +47,37 @@ function elit_downloadable_shortcode_init() {
           'filetype' => '',
           'dimensions' => '',
           'filesize' => '',
+          'images' => array(),
+          'default-image-id' => '',
         ),
         $atts
       );
 
       $shortcode_atts = elit_format_atts( $shortcode_atts );
 
+      if ( elit_downloadable_is_image( $shortcode_atts ) ) {
 
-      if ( is_image( $shortcode_atts ) ) {
+        $ids = array_map( 'trim', explode( ',', $shortcode_atts['ids'] ) );
 
-        $image = wp_get_attachment_image_src( $shortcode_atts['ids'], 'full' );
+        $shortcode_atts['default_image_id'] = $ids[0];
+
+        foreach ($ids as $id) {
+          $image = wp_get_attachment_image_src( $id, 'full' );
+          $shortcode_atts['images'][$id] = $image;
+        }
 
       } else {
-        // Handle document
 
-        $image = wp_get_attachment_image_src( $shortcode_atts['display_id'], 'full' );
+        // Handle document
+        $shortcode_atts['images'] = array(
+          wp_get_attachment_image_src( $shortcode_atts['display_id'], 'full' )
+        );
 
       }
 
-      $shortcode_atts = elit_get_atts( $shortcode_atts, $image, is_image( $shortcode_atts ) );
+      $shortcode_atts = 
+        elit_downloadable_get_atts( $shortcode_atts, 
+                                    elit_downloadable_is_image( $shortcode_atts ) );
 
       if ( ! $shortcode_atts ) { 
         return;
@@ -83,7 +95,7 @@ function elit_downloadable_shortcode_init() {
      * @param array $atts The shortcode attributes
      * @return boolean Whether the asset is an image
      */
-    function is_image( $atts ) {
+    function elit_downloadable_is_image( $atts ) {
 
       return empty( $atts['display_id'] ) || 
              $atts['display_id'] == $atts['ids'];
@@ -109,26 +121,32 @@ function elit_downloadable_shortcode_init() {
      * Fill in the shortcode attributes.
      *
      * @param  array   $atts  Shortcode attributes
-     * @param  array   $image Image info returned from wp_get_attachment_image_src()
+     * @param  2d array   $image Image info returned from wp_get_attachment_image_src()
      * @param  boolean $atts  Whether the downloadable asset is an image
      * @return array   The final shortcode attributes for the downloadable asset
      */
-    function elit_get_atts( $atts, $image, $downloadable_is_image = true ) {
+    function elit_downloadable_get_atts( $atts, $downloadable_is_image = true ) {
 
-      if ( ! ( $atts && $image ) ) {
+      if ( ! ( $atts && ! empty( $atts['images'] ) ) ) {
         return false;
       }
 
-      $image_url = $image[0];
+      $default_image = array_values( $atts['images'] )[0];
+      $default_image_id = $atts['default_image_id'];
+
+      $image_url = $default_image[0];
       
       if ( $downloadable_is_image ) {
 
-        $image_path = get_attached_file( $atts['ids'] );
+        $image_path = get_attached_file( $default_image_id );
 
-        $atts['display_id'] = $atts['ids'];
-        $atts['filetype']   = strtoupper( elit_get_image_type( $image_path ) );
-        $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
-        $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
+        $atts['display_id'] = $default_image_id;
+        $atts['filetype']   = 
+          strtoupper( elit_downloadable_get_image_type( $image_path ) );
+        //$atts['filesize']   = 
+          //elit_downloadable_human_filesize( filesize( $image_path ), 0 );
+        $atts['dimensions'] = 
+          elit_downloadable_format_dimensions($default_image[1], $default_image[2]);
         $atts['path']       = parse_url( $image_url, PHP_URL_PATH );
         $atts['name']       = basename( $image_url );
 
@@ -140,7 +158,7 @@ function elit_downloadable_shortcode_init() {
         $asset_path_parts = explode( '.', basename($asset_path) );
 
         $atts['filetype'] = strtoupper( array_pop( $asset_path_parts ) );
-        $atts['filesize'] = elit_human_filesize( filesize( $asset_path ), 0 );
+        //$atts['filesize'] = elit_downloadable_human_filesize( filesize( $asset_path ), 0 );
         $atts['path']     = parse_url( $image_url, PHP_URL_PATH );
       }
 
@@ -155,7 +173,7 @@ function elit_downloadable_shortcode_init() {
      * @param  int $height The width of the asset
      * @return string The height and width formatted for display.
      */
-    function elit_format_dimensions( $width, $height ) {
+    function elit_downloadable_format_dimensions( $width, $height ) {
       if ( empty( $width ) || empty( $height )) {
         return;
       }
@@ -172,7 +190,7 @@ function elit_downloadable_shortcode_init() {
      * @see http://php.net/manual/en/function.filesize.php
      *
      */
-    function elit_human_filesize( $bytes, $decimals = 2 ) {
+    function elit_downloadable_human_filesize( $bytes, $decimals = 2 ) {
 
       $factor = floor( ( strlen( $bytes ) - 1 ) / 3 );
 
@@ -189,7 +207,7 @@ function elit_downloadable_shortcode_init() {
      * @param string $url URL of the image
      * @return string The image type
      */
-    function elit_get_image_type( $image_url)  {
+    function elit_downloadable_get_image_type( $image_url)  {
 
       $image_info = getimagesize( $image_url );
 
@@ -216,7 +234,7 @@ function elit_downloadable_shortcode_init() {
       wp_enqueue_script(
         'elit_downloadable_scripts',
         plugins_url( $js_path, __FILE__ ),
-        array(),
+        array( 'jquery' ),
         filemtime( plugin_dir_path(__FILE__) . "/" . $js_path ),
         true
       );
@@ -257,18 +275,18 @@ function elit_downloadable_shortcode_init() {
       $markup .= "     </a>";
       $markup .= "   </figure>";
       $markup .= "   <figcaption>";
-      if ( is_image( $atts ) ):
+      if ( elit_downloadable_is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
         $markup .= "       <a class='hide' href='$path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
-        //$markup .= "       <a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>";
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
       if ( ! empty( $dimensions ) ):
+
         //$markup .= "       <span>Dimensions</span>$dimensions ";
 
         $markup .= "       <label for='size'>Select size</label>";
-        $markup .= "       <select name='size'>";
+        $markup .= "       <select name='size' class='downloadable__select'>";
         $markup .= "         <option value='728_90' selected>728x90px</option>";
         $markup .= "         <option value='1516_180'>1516x180px</option>";
         $markup .= "         <option value='900_600'>900x600px</option>";
@@ -298,4 +316,3 @@ function elit_downloadable_shortcode_init() {
   }
 }
 add_action( 'init' , 'elit_downloadable_shortcode_init' );
-

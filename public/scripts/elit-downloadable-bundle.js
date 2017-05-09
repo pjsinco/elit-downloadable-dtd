@@ -1,1 +1,1 @@
-console.log("hiya");
+jQuery(document).ready(function(a){jQuery(".downloadable__select").change(function(a){console.dir(a.currentTarget.value)})});
