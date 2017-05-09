@@ -202,19 +202,30 @@ function elit_downloadable_shortcode_init() {
     }
 
     /**
-     * Load the styles.
+     * Load the scripts and styles.
      *
      * @return void
      */
     function elit_downloadable_enqueue() {
 
       $css_file = 'elit-downloadable.css';
+      $css_path = "public/styles/$css_file";
+      $js_file = 'elit-downloadable-bundle.js';
+      $js_path = "public/scripts/$js_file";
+
+      wp_enqueue_script(
+        'elit_downloadable_scripts',
+        plugins_url( $js_path, __FILE__ ),
+        array(),
+        filemtime( plugin_dir_path(__FILE__) . "/" . $js_path ),
+        true
+      );
 
       wp_enqueue_style(
         'elit_downloadable_styles',
-        plugins_url( "public/styles/$css_file", __FILE__ ),
+        plugins_url( $css_path, __FILE__ ),
         array(),
-        filemtime( plugin_dir_path(__FILE__) . "/public/styles/$css_file" ),
+        filemtime( plugin_dir_path(__FILE__) . "/" . $css_path ),
         'all'
       );
     }
