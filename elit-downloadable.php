@@ -37,7 +37,7 @@ function elit_downloadable_shortcode_init() {
 
       $shortcode_atts = shortcode_atts(
         array(
-          'id' => '',
+          'ids' => '',
           'display-id' => '',
           'path' => '',
           'name' => '',
@@ -56,7 +56,7 @@ function elit_downloadable_shortcode_init() {
 
       if ( is_image( $shortcode_atts ) ) {
 
-        $image = wp_get_attachment_image_src( $shortcode_atts['id'], 'full' );
+        $image = wp_get_attachment_image_src( $shortcode_atts['ids'], 'full' );
 
       } else {
         // Handle document
@@ -86,7 +86,7 @@ function elit_downloadable_shortcode_init() {
     function is_image( $atts ) {
 
       return empty( $atts['display_id'] ) || 
-             $atts['display_id'] == $atts['id'];
+             $atts['display_id'] == $atts['ids'];
     }
 
     /**
@@ -123,9 +123,9 @@ function elit_downloadable_shortcode_init() {
       
       if ( $downloadable_is_image ) {
 
-        $image_path = get_attached_file( $atts['id'] );
+        $image_path = get_attached_file( $atts['ids'] );
 
-        $atts['display_id'] = $atts['id'];
+        $atts['display_id'] = $atts['ids'];
         $atts['filetype']   = strtoupper( elit_get_image_type( $image_path ) );
         $atts['filesize']   = elit_human_filesize( filesize( $image_path ), 0 );
         $atts['dimensions'] = elit_format_dimensions($image[1], $image[2]);
@@ -136,7 +136,7 @@ function elit_downloadable_shortcode_init() {
 
         $image_path = get_attached_file( $atts['display_id'] );
 
-        $asset_path = get_attached_file( $atts['id'] );
+        $asset_path = get_attached_file( $atts['ids'] );
         $asset_path_parts = explode( '.', basename($asset_path) );
 
         $atts['filetype'] = strtoupper( array_pop( $asset_path_parts ) );
@@ -254,7 +254,14 @@ function elit_downloadable_shortcode_init() {
       endif;
       $markup .= "     <p class='downloadable__description'>";
       if ( ! empty( $dimensions ) ):
-        $markup .= "       <span>Dimensions</span>$dimensions ";
+        //$markup .= "       <span>Dimensions</span>$dimensions ";
+
+        $markup .= "       <label for='size'>Select size</label>";
+        $markup .= "       <select name='size'>";
+        $markup .= "         <option value='728_90' selected>728x90px</option>";
+        $markup .= "         <option value='1516_180'>1516x180px</option>";
+        $markup .= "         <option value='900_600'>900x600px</option>";
+        $markup .= "       </select>";
         $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
       endif;
       $markup .= "       <span>Format</span>$filetype<br>";
