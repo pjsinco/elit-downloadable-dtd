@@ -156,8 +156,11 @@ $red: #d53847;
     font-weight: 600;
   }
 
-  & > span {
-    font-weight: 600;
+  & > span:not(.downloadable__note) {
+    font-family: "gotham-light";
+    text-transform: uppercase;
+    font-size: .6667rem;
+    letter-spacing: 1px;
   }
 
   /*& > span:not(:first-of-type):after {*/

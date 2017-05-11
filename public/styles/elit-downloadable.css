@@ -127,8 +127,11 @@
   /*}*/ }
   .downloadable__description label {
     font-weight: 600; }
-  .downloadable__description > span {
-    font-weight: 600; }
+  .downloadable__description > span:not(.downloadable__note) {
+    font-family: "gotham-light";
+    text-transform: uppercase;
+    font-size: .6667rem;
+    letter-spacing: 1px; }
 
 .downloadable__note {
   position: absolute;
