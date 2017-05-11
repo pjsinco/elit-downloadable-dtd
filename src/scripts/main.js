@@ -23,11 +23,11 @@ jQuery(window).load(function() {
    */
   function updateAssetPath($downloadable, assetPath) {
     var assetString = '?asset=';
-  
-    var $newLink = $downloadable.find('.downloadable__screen');
-    var hrefPath = $newLink.attr('href').split(assetString)[0];
+
+    var $anchorTag = $downloadable.find('figure > a');
+    var hrefPath = $anchorTag.attr('href').split(assetString)[0];
     var newPath = hrefPath + assetString + assetPath;
-    $newLink.attr('href', newPath);
+    $anchorTag.attr('href', newPath);
     $downloadable.find('figcaption > a').attr('href', newPath);
   }
   
