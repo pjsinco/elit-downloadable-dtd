@@ -52,19 +52,20 @@ jQuery(window).load(function() {
     jQuery('.downloadable').each(function() {
   
   
-      var $image = jQuery(this).find('figure > img');
+      var $image = jQuery(this).find('figure > a > img');
 
       //$image.css('bottom', 'inherit');
       //$image.css('left', 'inherit');
       //$image.css('right', 'inherit');
 
       jQuery(this).find('.downloadable__screen').css({
-        bottom: '1rem',
-        left:   '50%',
-        right:  '1rem',
+        //bottom: '1rem',
+        //left:   '50%',
+        //right:  '1rem',
         width:  $image.css('width'),
         height: $image.css('height'),
-        transform: 'translateX(-50%)',
+        margin: '0 auto',
+        //transform: 'translateX(-50%)',
       });
     });
   }

@@ -8,7 +8,7 @@ $red: #d53847;
   top: 1px;
   height: 13px;
   width: 13px;
-  margin-right: .25rem;
+  margin-right: .5rem;
   background-size: 13px;
 }
 
@@ -49,6 +49,10 @@ $red: #d53847;
     border-left: 1px solid $faintgray;
     border-right: 1px solid $faintgray;
     border-top: 1px solid $faintgray;
+
+    & > a {
+      display: block;
+    }
     
     &:hover {
       cursor: pointer;
@@ -190,27 +194,29 @@ $red: #d53847;
   background-color: rgba($red,.88);
   opacity: 0;
   transition: opacity .3s ease;
-  font-size: 24px;
+  /*font-size: 24px;*/
+  font-size: 1rem;
   font-weight: 200;
   letter-spacing: .8px;
+  color: #fff;
 
   & a {
     display: inline-block;
   }
 
-  & > p {
+  & > div {
     color: #fff;
     opacity: 0;
     transform: translate3d(0, -100%, 0);
     transition: transform .3s ease, opacity .3s ease;
 
-    .downloadable > figure:hover & {
+    .downloadable > figure > a:hover & {
       opacity: 1;
       transform: none;
     }
   }
 
-  .downloadable > figure:hover & {
+  .downloadable > figure > a:hover & {
     opacity: 1;
   }
 }

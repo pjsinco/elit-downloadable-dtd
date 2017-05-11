@@ -300,12 +300,12 @@ function elit_downloadable_shortcode_init() {
         $markup .= "  <h3>$meta_tag</h3>";
       endif;
       $markup .= "   <figure>";
-      $markup .= "     <img src='$rel_path'>";
-      $markup .= "     <a class='downloadable__screen' href=\"$download_path\">";
-      $markup .= "       <p>";
-      $markup .= "         <i class='downloadable__icon--dllight'></i>";
-      $markup .= "         Download";
-      $markup .= "       </p>";
+      $markup .= "     <a href=\"$download_path\">";
+      $markup .= "       <img src='$rel_path'>";
+      $markup .= "       <div class='downloadable__screen' >";
+      $markup .= "         <div><i class='downloadable__icon--dllight'></i>";
+      $markup .= "         Download</div>";
+      $markup .= "       </div>";
       $markup .= "     </a>";
       $markup .= "   </figure>";
       $markup .= "   <figcaption>";
