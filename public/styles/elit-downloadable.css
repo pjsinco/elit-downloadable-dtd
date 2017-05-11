@@ -109,11 +109,10 @@
     background-position: right .75rem center;
     background-size: 8px 10px;
     color: #d53847;
-    border: 1px solid #d53847;
+    border: 1px solid #666;
     -webkit-appearance: none;
     -moz-appearance: none; }
     .downloadable select:focus {
-      border-color: #d53847;
       outline: 0; }
 
 .downloadable__description {

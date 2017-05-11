@@ -137,12 +137,11 @@ $red: #d53847;
     background-position: right .75rem center; 
     background-size: 8px 10px;
     color: $red; 
-    border: 1px solid $red;
+    border: 1px solid $fontcolor;
     -webkit-appearance: none;
     -moz-appearance: none;
 
     &:focus {
-      border-color: #d53847;
       outline: 0;
     }
   }
@@ -243,7 +242,6 @@ $red: #d53847;
   .downloadable > figcaption > a:hover & {
     transform: translate3d(0, 12%, 0);
   }
-  
 }
 
 .downloadable__icon--dllight {
