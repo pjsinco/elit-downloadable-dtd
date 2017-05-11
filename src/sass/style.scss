@@ -3,6 +3,11 @@ $faintergray: #f5f5f5;
 $fontcolor: #666;
 $red: #d53847;
 
+%download {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
 %downloadable-icon-dl-base {
   position: relative;
   top: 1px;
@@ -90,7 +95,7 @@ $red: #d53847;
 
   & > figcaption {
     position: relative;
-    padding: .75rem 1rem 1rem;
+    padding: 0 1rem 1rem;
     /*box-shadow: 0 0 10px 3px #f3f3f3;*/
     border-left: 1px solid $faintgray;
     border-right: 1px solid $faintgray;
@@ -98,6 +103,7 @@ $red: #d53847;
     border-top: none;
 
     & > a {
+      @extend %download;
       position: relative;
       display: block;
       margin: 0 -1rem -1rem;
@@ -117,9 +123,11 @@ $red: #d53847;
   }
 
   & select {
-    display: inline-block;
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: calc(2.25rem + 2px);
+    margin-bottom: .5rem;
+    margin-top: .25rem;
     padding: .5rem 1.75rem .5rem .75rem;
     line-height: 1.25;
     vertical-align: middle;
@@ -128,8 +136,8 @@ $red: #d53847;
     background-repeat: no-repeat;
     background-position: right .75rem center; 
     background-size: 8px 10px;
-    color: $fontcolor; 
-    border: 1px solid $faintgray;
+    color: $red; 
+    border: 1px solid $red;
     -webkit-appearance: none;
     -moz-appearance: none;
 
@@ -145,17 +153,21 @@ $red: #d53847;
   font-size: .875rem;
   line-height: 1.6;
 
+  & label {
+    font-weight: 600;
+  }
+
   & > span {
     font-weight: 600;
   }
 
-  & > span:after {
-    content: ": ";
-  }
+  /*& > span:not(:first-of-type):after {*/
+    /*content: ": ";*/
+  /*}*/
 
-  & a[href^='mailto'] {
-    text-decoration: underline;
-  }
+  /*& a[href^='mailto'] {*/
+    /*text-decoration: underline;*/
+  /*}*/
 }
 
 .downloadable__note {
@@ -165,6 +177,7 @@ $red: #d53847;
   font-size: .75rem;
   line-height: 2;
   text-align: center;
+  font-weight: 400 !important;
 
   @media screen and (min-width: 875px) {
     display: block;
@@ -191,7 +204,7 @@ $red: #d53847;
   bottom: 1rem;
   left: 1rem;
   right: 1rem;
-  background-color: rgba($red,.88);
+  background-color: rgba($red,.93);
   opacity: 0;
   transition: opacity .3s ease;
   /*font-size: 24px;*/
@@ -205,6 +218,7 @@ $red: #d53847;
   }
 
   & > div {
+    @extend %download;
     color: #fff;
     opacity: 0;
     transform: translate3d(0, -100%, 0);
@@ -244,4 +258,12 @@ $red: #d53847;
   width: 10px;
   background-size: 10px;
   background-image: url(./../images/link.png);
+}
+
+.downloadable__icon--email {
+  @extend %downloadable-icon-base;
+  height: 10px;
+  width: 17px;
+  background-size: 16px;
+  background-image: url(./../images/email.png);
 }

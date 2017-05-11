@@ -309,6 +309,8 @@ function elit_downloadable_shortcode_init() {
       $markup .= "     </a>";
       $markup .= "   </figure>";
       $markup .= "   <figcaption>";
+
+
       if ( elit_downloadable_is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
         $markup .= "       <a class='hide' href='$rel_path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
@@ -316,11 +318,6 @@ function elit_downloadable_shortcode_init() {
       endif;
       $markup .= "     <p class='downloadable__description'>";
 
-
-
-
-      //if ( ! empty( $dimensions ) ):
-        //$markup .= "       <span>Dimensions</span>$dimensions ";
 
       if ( count( $images ) > 1 ) {
 
@@ -332,39 +329,33 @@ function elit_downloadable_shortcode_init() {
           $option_text = 
             elit_downloadable_format_dimensions( $image['width'], $image['height'] );
 
-          $markup .= "<option value='$key'>$option_text</option>";
+          $markup .= "<option value='$key'>$option_text pixels</option>";
         }
 
-
-        //$markup .= "         <option value='728_90' selected>728x90px</option>";
-        //$markup .= "         <option value='1516_180'>1516x180px</option>";
-        //$markup .= "         <option value='900_600'>900x600px</option>";
-
-
-
         $markup .= "       </select>";
-        $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
 
       } else {
 
-        $markup .= "       <span>Dimensions</span>$dimensions ";
-        $markup .= "       <small>(<a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes</a>)</small><br>";
+        if ( ! empty( $dimensions ) ) {
+          $markup .= "       <span>Dimensions: </span>$dimensions pixels<br>";
+        }
       }
+      $markup .= "       <span class='downloadable__note'><a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes <i class='downloadable__icon--email'></i></a></span>";
 
 
 
 
 
 
-      $markup .= "       <span>Format</span>$filetype<br>";
+      $markup .= "       <span>Format: </span>$filetype<br>";
       if ( ! empty( $filesize ) ):
-        $markup .= "       <span>File Size</span>$filesize<br>";
+        $markup .= "       <span>File Size: </span>$filesize<br>";
       endif;
       if ( ! empty( $meta_link ) ):
-        $markup .= "       <span>Link to</span>$meta_link<br>";
+        $markup .= "       <span>Link to: </span>$meta_link<br>";
       endif;
       if ( ! empty( $meta_audience ) ):
-        $markup .= "       <span>Audience</span>$meta_audience<br>";
+        $markup .= "       <span>Audience: </span>$meta_audience<br>";
       endif;
       $markup .= "     </p>";
       $markup .= "     <a href=\"$download_path\">";

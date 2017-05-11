@@ -1,3 +1,7 @@
+.downloadable > figcaption > a, .downloadable__screen > div {
+  text-transform: uppercase;
+  letter-spacing: 3px; }
+
 .downloadable__icon--dldark, .downloadable__icon--dllight {
   position: relative;
   top: 1px;
@@ -6,7 +10,7 @@
   margin-right: .5rem;
   background-size: 13px; }
 
-.downloadable__icon--dldark, .downloadable__icon--dllight, .downloadable__icon--link {
+.downloadable__icon--dldark, .downloadable__icon--dllight, .downloadable__icon--link, .downloadable__icon--email {
   display: inline-block;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -70,7 +74,7 @@
     border-bottom: none; }
   .downloadable > figcaption {
     position: relative;
-    padding: .75rem 1rem 1rem;
+    padding: 0 1rem 1rem;
     /*box-shadow: 0 0 10px 3px #f3f3f3;*/
     border-left: 1px solid #ececec;
     border-right: 1px solid #ececec;
@@ -91,9 +95,11 @@
       background-color: #e6e6e6;
       cursor: pointer; }
   .downloadable select {
-    display: inline-block;
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: calc(2.25rem + 2px);
+    margin-bottom: .5rem;
+    margin-top: .25rem;
     padding: .5rem 1.75rem .5rem .75rem;
     line-height: 1.25;
     vertical-align: middle;
@@ -102,8 +108,8 @@
     background-repeat: no-repeat;
     background-position: right .75rem center;
     background-size: 8px 10px;
-    color: #666;
-    border: 1px solid #ececec;
+    color: #d53847;
+    border: 1px solid #d53847;
     -webkit-appearance: none;
     -moz-appearance: none; }
     .downloadable select:focus {
@@ -113,13 +119,17 @@
 .downloadable__description {
   margin-top: 0;
   font-size: .875rem;
-  line-height: 1.6; }
+  line-height: 1.6;
+  /*& > span:not(:first-of-type):after {*/
+  /*content: ": ";*/
+  /*}*/
+  /*& a[href^='mailto'] {*/
+  /*text-decoration: underline;*/
+  /*}*/ }
+  .downloadable__description label {
+    font-weight: 600; }
   .downloadable__description > span {
     font-weight: 600; }
-  .downloadable__description > span:after {
-    content: ": "; }
-  .downloadable__description a[href^='mailto'] {
-    text-decoration: underline; }
 
 .downloadable__note {
   position: absolute;
@@ -127,7 +137,8 @@
   display: none;
   font-size: .75rem;
   line-height: 2;
-  text-align: center; }
+  text-align: center;
+  font-weight: 400 !important; }
   @media screen and (min-width: 875px) {
     .downloadable__note {
       display: block; } }
@@ -156,7 +167,7 @@
   bottom: 1rem;
   left: 1rem;
   right: 1rem;
-  background-color: rgba(213, 56, 71, 0.88);
+  background-color: rgba(213, 56, 71, 0.93);
   opacity: 0;
   transition: opacity .3s ease;
   /*font-size: 24px;*/
@@ -194,3 +205,9 @@
   width: 10px;
   background-size: 10px;
   background-image: url(./../images/link.png); }
+
+.downloadable__icon--email {
+  height: 10px;
+  width: 17px;
+  background-size: 16px;
+  background-image: url(./../images/email.png); }
