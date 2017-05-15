@@ -1,6 +1,6 @@
 .downloadable > figcaption > a, .downloadable__screen > div {
   text-transform: uppercase;
-  letter-spacing: 3px; }
+  letter-spacing: 1px; }
 
 .downloadable__icon--dldark, .downloadable__icon--dllight {
   position: relative;
@@ -108,7 +108,7 @@
     background-repeat: no-repeat;
     background-position: right .75rem center;
     background-size: 8px 10px;
-    color: #d53847;
+    color: #666;
     border: 1px solid #666;
     -webkit-appearance: none;
     -moz-appearance: none; }
@@ -169,7 +169,7 @@
   bottom: 1rem;
   left: 1rem;
   right: 1rem;
-  background-color: rgba(213, 56, 71, 0.93);
+  background-color: rgba(68, 68, 68, 0.93);
   opacity: 0;
   transition: opacity .3s ease;
   /*font-size: 24px;*/

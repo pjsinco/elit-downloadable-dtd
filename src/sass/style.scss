@@ -5,7 +5,7 @@ $red: #d53847;
 
 %download {
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
 }
 
 %downloadable-icon-dl-base {
@@ -136,7 +136,7 @@ $red: #d53847;
     background-repeat: no-repeat;
     background-position: right .75rem center; 
     background-size: 8px 10px;
-    color: $red; 
+    color: $fontcolor; 
     border: 1px solid $fontcolor;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -206,7 +206,7 @@ $red: #d53847;
   bottom: 1rem;
   left: 1rem;
   right: 1rem;
-  background-color: rgba($red,.93);
+  background-color: rgba(68,68,68,.93);
   opacity: 0;
   transition: opacity .3s ease;
   /*font-size: 24px;*/
