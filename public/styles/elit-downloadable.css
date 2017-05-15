@@ -1,12 +1,16 @@
+.downloadable > figcaption > a, .downloadable__screen > div {
+  text-transform: uppercase;
+  letter-spacing: 1px; }
+
 .downloadable__icon--dldark, .downloadable__icon--dllight {
   position: relative;
   top: 1px;
   height: 13px;
   width: 13px;
-  margin-right: .25rem;
+  margin-right: .5rem;
   background-size: 13px; }
 
-.downloadable__icon--dldark, .downloadable__icon--dllight, .downloadable__icon--link {
+.downloadable__icon--dldark, .downloadable__icon--dllight, .downloadable__icon--link, .downloadable__icon--email {
   display: inline-block;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -35,17 +39,21 @@
   .downloadable figure {
     position: relative;
     margin: 0;
+    padding: 1rem;
     border-left: 1px solid #ececec;
     border-right: 1px solid #ececec;
-    border-top: 1px solid #ececec;
-    background-color: #f5f5f5;
-    /*box-shadow: 0 0 10px 3px #f3f3f3;*/ }
+    border-top: 1px solid #ececec; }
+    .downloadable figure > a {
+      display: block; }
+    .downloadable figure:hover {
+      cursor: pointer; }
   .downloadable img {
     margin: 0 auto;
     position: relative;
     display: block;
     /*min-height: 100%;*/
-    max-width: 100%; }
+    max-width: 100%;
+    box-shadow: 0 0 10px 3px #f3f3f3; }
   .downloadable > h3 {
     position: relative;
     left: 1rem;
@@ -66,7 +74,7 @@
     border-bottom: none; }
   .downloadable > figcaption {
     position: relative;
-    padding: .75rem 1rem 1rem;
+    padding: 0 1rem 1rem;
     /*box-shadow: 0 0 10px 3px #f3f3f3;*/
     border-left: 1px solid #ececec;
     border-right: 1px solid #ececec;
@@ -86,17 +94,44 @@
     .downloadable > figcaption > a:hover {
       background-color: #e6e6e6;
       cursor: pointer; }
+  .downloadable select {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    margin-bottom: .5rem;
+    margin-top: .25rem;
+    padding: .5rem 1.75rem .5rem .75rem;
+    line-height: 1.25;
+    vertical-align: middle;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 8px 10px;
+    color: #666;
+    border: 1px solid #666;
+    -webkit-appearance: none;
+    -moz-appearance: none; }
+    .downloadable select:focus {
+      outline: 0; }
 
 .downloadable__description {
   margin-top: 0;
   font-size: .875rem;
-  line-height: 1.6; }
-  .downloadable__description > span {
+  line-height: 1.6;
+  /*& > span:not(:first-of-type):after {*/
+  /*content: ": ";*/
+  /*}*/
+  /*& a[href^='mailto'] {*/
+  /*text-decoration: underline;*/
+  /*}*/ }
+  .downloadable__description label {
     font-weight: 600; }
-  .downloadable__description > span:after {
-    content: ": "; }
-  .downloadable__description a[href^='mailto'] {
-    text-decoration: underline; }
+  .downloadable__description > span:not(.downloadable__note) {
+    font-family: "gotham-light";
+    text-transform: uppercase;
+    font-size: .6667rem;
+    letter-spacing: 1px; }
 
 .downloadable__note {
   position: absolute;
@@ -104,7 +139,8 @@
   display: none;
   font-size: .75rem;
   line-height: 2;
-  text-align: center; }
+  text-align: center;
+  font-weight: 400 !important; }
   @media screen and (min-width: 875px) {
     .downloadable__note {
       display: block; } }
@@ -129,30 +165,32 @@
       -ms-flex-pack: center;
           justify-content: center;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  top: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  background-color: rgba(68, 68, 68, 0.93);
   opacity: 0;
   transition: opacity .3s ease;
-  font-size: 24px;
+  /*font-size: 24px;*/
+  font-size: 1rem;
   font-weight: 200;
-  letter-spacing: .8px; }
+  letter-spacing: .8px;
+  color: #fff; }
   .downloadable__screen a {
     display: inline-block; }
-  .downloadable__screen > p {
+  .downloadable__screen > div {
     color: #fff;
     opacity: 0;
     -webkit-transform: translate3d(0, -100%, 0);
             transform: translate3d(0, -100%, 0);
     transition: -webkit-transform .3s ease, opacity .3s ease;
     transition: transform .3s ease, opacity .3s ease; }
-    .downloadable > figure:hover .downloadable__screen > p {
+    .downloadable > figure > a:hover .downloadable__screen > div {
       opacity: 1;
       -webkit-transform: none;
               transform: none; }
-  .downloadable > figure:hover .downloadable__screen {
+  .downloadable > figure > a:hover .downloadable__screen {
     opacity: 1; }
 
 .downloadable__icon--dldark {
@@ -169,3 +207,9 @@
   width: 10px;
   background-size: 10px;
   background-image: url(./../images/link.png); }
+
+.downloadable__icon--email {
+  height: 10px;
+  width: 17px;
+  background-size: 16px;
+  background-image: url(./../images/email.png); }

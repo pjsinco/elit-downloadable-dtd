@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       },
       dev: {
         files: {
-          'public/styles/<%= pkg.name %>.css': 'sass/style.scss',
+          'public/styles/<%= pkg.name %>.css': 'src/sass/style.scss',
         },
       },
     },
@@ -31,6 +31,14 @@ module.exports = function(grunt) {
       }
     },
 
+    uglify: {
+      dist: {
+        files: {
+          'public/scripts/<%= pkg.name %>-bundle.js': ['src/scripts/main.js']
+        },
+      },
+    },
+
     autoprefixer: {
       css: {
         src: 'public/styles/<%= pkg.name %>.css',
@@ -48,11 +56,11 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['vendor/scripts/**/*.js'],
-        tasks: ['concat', 'notify:scripts'],
+        files: ['src/scripts/**/*.js'],
+        tasks: ['uglify', 'notify:scripts'],
       },
       sass: {
-        files: ['sass/**/*.scss'],
+        files: ['src/sass/**/*.scss'],
         tasks: ['sass:dev', 'notify:sass', 'autoprefixer:css' ],
       },
     },
@@ -63,6 +71,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-notify');
   grunt.loadNpmTasks("grunt-autoprefixer");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
 
   grunt.registerTask('compile-sass', ['sass:dev', 'notify:sass']);
   grunt.registerTask('default', ['watch']);
