@@ -28,7 +28,7 @@ jQuery(window).load(function() {
     var hrefPath = $anchorTag.attr('href').split(assetString)[0];
     var newPath = hrefPath + assetString + assetPath;
     $anchorTag.attr('href', newPath);
-    $downloadable.find('figcaption > a').attr('href', newPath);
+    $downloadable.find('figcaption > a').first().attr('href', newPath);
   }
   
   /**
@@ -36,7 +36,7 @@ jQuery(window).load(function() {
    *
    */
   function updateUrl($downloadable, url) {
-    var $actualSize = $downloadable.find('.downloadable__note > a');
+    var $actualSize = $downloadable.find('#actualSize');
     $actualSize.attr('href', url);
   }
   
@@ -47,27 +47,15 @@ jQuery(window).load(function() {
    */
   function positionHoverScreen() {
   
-    //$('.downloadable__screen').
-  
     jQuery('.downloadable').each(function() {
-  
   
       var $image = jQuery(this).find('figure > a > img');
 
-      //$image.css('bottom', 'inherit');
-      //$image.css('left', 'inherit');
-      //$image.css('right', 'inherit');
-
       jQuery(this).find('.downloadable__screen').css({
-        //bottom: '1rem',
-        //left:   '50%',
-        //right:  '1rem',
         width:  $image.css('width'),
         height: $image.css('height'),
         margin: '0 auto',
-        //transform: 'translateX(-50%)',
       });
     });
   }
-  
 });

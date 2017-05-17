@@ -313,7 +313,7 @@ function elit_downloadable_shortcode_init() {
 
       if ( elit_downloadable_is_image( $atts ) ):
         $markup .= "     <p class='downloadable__note'>";
-        $markup .= "       <a class='hide' href='$rel_path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
+        $markup .= "       <a class='hide' id='actualSize' href='$rel_path' target='_blank'>View actual size <i class='downloadable__icon--link'></i><br /></a>";
         $markup .= "     </p>";
       endif;
       $markup .= "     <p class='downloadable__description'>";
