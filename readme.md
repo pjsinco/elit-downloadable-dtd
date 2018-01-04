@@ -1,3 +1,5 @@
+### This plugin, specific to DoctorsThatDO.org, is a fork of [elit-downloadable](https://github.com/pjsinco/elit-downloadable)
+
 # Examples
 
 ```html

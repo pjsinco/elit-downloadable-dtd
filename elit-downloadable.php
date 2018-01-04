@@ -1,9 +1,9 @@
 <?php 
 /*
-Plugin Name: Elit Downloadable
+Plugin Name: Elit Downloadable DTD
 Plugin URI:  
-Description: Make images and other assets downloadable
-Version:  1.1.1
+Description: Make images and other assets downloadable 
+Version:  1.0.0
 Author: Patrick Sinco
 Author URI: github.com/pjsinco
 License: GPL2
