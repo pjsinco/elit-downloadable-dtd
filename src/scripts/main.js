@@ -11,10 +11,34 @@ jQuery(window).load(function() {
       var selectedImageId = allImages[0][evt.currentTarget.value];
     
       updateAssetPath($downloadable, selectedImageId.abs_path);
+      updateImage($downloadable, selectedImageId.url)
       updateUrl($downloadable, selectedImageId.url);
     });
     
     jQuery(window).resize(positionHoverScreen);
+  }
+
+  /**
+   * Update the displayed image
+   *
+   */
+  function updateImage($downloadable, url) {
+    var $image = $downloadable.find('figure img');
+    var newImageSrc = url.split(window.location.hostname);
+
+    if (newImageSrc.length) {
+      $image.one('load', function() {
+        var newWidth = jQuery(this).width();
+        var newHeight = jQuery(this).height();
+
+        $downloadable.find('.downloadable__screen').css({
+          width:  newWidth + 'px',
+          height: newHeight + 'px',
+          margin: '0 auto',
+        })
+
+      }).attr('src', newImageSrc[1]);
+    }
   }
   
   /**
@@ -23,7 +47,6 @@ jQuery(window).load(function() {
    */
   function updateAssetPath($downloadable, assetPath) {
     var assetString = '?asset=';
-
     var $anchorTag = $downloadable.find('figure > a');
     var hrefPath = $anchorTag.attr('href').split(assetString)[0];
     var newPath = hrefPath + assetString + assetPath;

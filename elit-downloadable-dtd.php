@@ -340,7 +340,7 @@ function elit_downloadable_shortcode_init() {
           $markup .= "       <span>Dimensions: </span>$dimensions pixels<br>";
         }
       }
-      $markup .= "       <span class='downloadable__note'><a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes <i class='downloadable__icon--email'></i></a></span>";
+      //$markup .= "       <span class='downloadable__note'><a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes <i class='downloadable__icon--email'></i></a></span>";
 
 
 
