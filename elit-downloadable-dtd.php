@@ -62,12 +62,14 @@ function elit_downloadable_shortcode_init() {
         foreach ($ids as $id) {
 
           $image = wp_get_attachment_image_src( $id, 'full' );
+          $label = elit_get_media_label( $id );
           
           if ( $image ) {
             $shortcode_atts['images'][$id]['url'] = $image[0];
             $shortcode_atts['images'][$id]['width'] = $image[1];
             $shortcode_atts['images'][$id]['height'] = $image[2];
             $shortcode_atts['images'][$id]['abs_path'] = get_attached_file( $id );
+            $shortcode_atts['images'][$id]['label'] = $label;
           }
         }
 
@@ -75,6 +77,7 @@ function elit_downloadable_shortcode_init() {
         // Handle document
 
         $id = reset($shortcode_atts['ids']);
+        $label = elit_get_media_label( $id );
 
         $image = wp_get_attachment_image_src( $shortcode_atts['display_id'], 'full' );
 
@@ -82,6 +85,7 @@ function elit_downloadable_shortcode_init() {
         $shortcode_atts['images'][0]['width'] = $image[1];
         $shortcode_atts['images'][0]['height'] = $image[2];
         $shortcode_atts['images'][0]['abs_path'] = get_attached_file( $id );
+        $shortcode_atts['images'][0]['label'] = $label;
       }
 
 
@@ -271,6 +275,21 @@ function elit_downloadable_shortcode_init() {
     }
 
     /**
+     * Get the description of the media item
+     *
+     * @param String $id     The ID of the media item
+     * @return String | null The label for the media item
+     */
+    function elit_get_media_label( $id ) {
+
+      $post = get_post( $id );
+      if ( $post ) {
+        return $post->post_content;
+      }
+      return null;
+    }
+
+    /**
      * Generate the HTML markup for the downloadable asset.
      *
      * @param array $atts The shortcode attributes
@@ -278,6 +297,7 @@ function elit_downloadable_shortcode_init() {
      */
     function elit_downloadable_markup( $atts )
     {
+
       extract( $atts );
 
       $download_path = plugins_url( "download.php", __FILE__ ) .  '?asset=';
@@ -318,7 +338,6 @@ function elit_downloadable_shortcode_init() {
       endif;
       $markup .= "     <p class='downloadable__description'>";
 
-
       if ( count( $images ) > 1 ) {
 
         $markup .= "       <label for='size'>Select size</label>";
@@ -329,15 +348,27 @@ function elit_downloadable_shortcode_init() {
           $option_text = 
             elit_downloadable_format_dimensions( $image['width'], $image['height'] );
 
-          $markup .= "<option value='$key'>$option_text pixels</option>";
+          $label = $image['label'];
+
+          $markup .= "<option value='$key'>$option_text pixels";
+          if ( ! empty( $label ) ) {
+            $markup .= " - $label";
+          }
+          $markup .= "</option>";
         }
 
         $markup .= "       </select>";
 
       } else {
-
         if ( ! empty( $dimensions ) ) {
-          $markup .= "       <span>Dimensions: </span>$dimensions pixels<br>";
+          // We know there's only 1 image, so get the first
+          $image = array_shift( $images ); 
+          $label = $image['label']; 
+          $markup .= "       <span>Dimensions: </span>$dimensions pixels"; 
+          if ( ! empty( $label ) ) {
+            $markup .= " - $label";
+          }
+          $markup .= "<br>";
         }
       }
       //$markup .= "       <span class='downloadable__note'><a href='mailto:asnyder@osteopathic.org?subject=" . rawurlencode('OMED Marketing Materials') . "'>Request additional sizes <i class='downloadable__icon--email'></i></a></span>";
